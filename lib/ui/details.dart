@@ -32,12 +32,26 @@ class DetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Номер: ${doc.docNum}"),
-            Text("Дата: ${DateFormat.yMMMd().format(doc.docDate)}"),
-            Text("Описание: ${doc.desc}"),
+            TextWithPadding("Номер: ${doc.docNum}"),
+            TextWithPadding("Дата: ${DateFormat.yMMMd().format(doc.docDate)}"),
+            TextWithPadding("Описание: ${doc.desc}"),
           ],
         ),
       ),
     );
   }
+}
+
+class TextWithPadding extends StatelessWidget {
+  String _text;
+  TextWithPadding(this._text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(_text),
+    );
+  }
+
 }

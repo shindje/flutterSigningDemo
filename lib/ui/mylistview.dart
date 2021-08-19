@@ -23,8 +23,8 @@ class MyListView extends StatelessWidget {
             return ListTile (
               title: Row (
                 children: [
-                  Expanded(child: Text(doc.docNum)),
-                  Expanded(child: Text(DateFormat.yMMMd().format(doc.docDate))),
+                  Expanded(child: Text("№ ${doc.docNum}")),
+                  Expanded(child: Text("от ${DateFormat.yMMMd().format(doc.docDate)}")),
                 ],
               ),
               onTap: () => onTap(doc),

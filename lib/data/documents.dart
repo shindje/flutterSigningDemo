@@ -12,7 +12,7 @@ class Document {
 }
 
 List<Document> mocked() => [
-  Document("1.1", null, "Doc 1"),
-  Document("1.2", null, "Doc 2"),
-  Document("2", DateTime.parse("2012-02-27"), "Doc 2"),
+  Document("1.1", null, "Документ о чем-то"),
+  Document("1.2", null, "Документ о направлении чего-го куда-то"),
+  Document("2", DateTime.parse("2012-02-27"), "Тоже документ"),
 ];
