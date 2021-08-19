@@ -11,7 +11,7 @@ class MyListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: Text('Список документов'),),
       body: ListView.builder(
           itemCount: docList.length * 2,
           itemBuilder: (BuildContext _context, int i) {

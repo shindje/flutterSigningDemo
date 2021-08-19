@@ -22,8 +22,7 @@ environment:
 
 dependencies:
   intl: ^0.17.0
-  flutter_full_pdf_viewer: ^1.0.4
-  path_provider: ^0.4.1
+  syncfusion_flutter_pdfviewer: ^19.2.56-beta
   flutter:
     sdk: flutter
 
