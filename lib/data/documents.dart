@@ -10,3 +10,9 @@ class Document {
     this.desc = desc;
   }
 }
+
+List<Document> mocked() => [
+  Document("1.1", null, "Doc 1"),
+  Document("1.2", null, "Doc 2"),
+  Document("2", DateTime.parse("2012-02-27"), "Doc 2"),
+];
