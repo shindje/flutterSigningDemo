@@ -32,24 +32,35 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Navigator(
-      pages: [
-        MaterialPage(
-          key: ValueKey("listPage"),
-            child: MyListView(mocked(), _handleTap)
-        ),
-        if (_doc != null)
-          DetailsPage(_doc!)
-      ],
-      onPopPage: (route, result) {
-        if (!route.didPop(result))
-          return false;
+    return WillPopScope(
+        onWillPop: () {
+          // Navigator.pop(context);
+          if (_doc == null)
+            return Future.value(true);
+          setState(() {
+            _doc = null;
+          });
+          return Future.value(false);
+        },
+      child: Navigator(
+        pages: [
+          MaterialPage(
+            key: ValueKey("listPage"),
+              child: MyListView(mocked(), _handleTap)
+          ),
+          if (_doc != null)
+            DetailsPage(_doc!)
+        ],
+        onPopPage: (route, result) {
+          if (!route.didPop(result))
+            return false;
 
-        setState(() {
-          _doc = null;
-        });
-        return true;
-      },
+          setState(() {
+            _doc = null;
+          });
+          return true;
+        },
+      ),
     );
   }
 
