@@ -1,7 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:signing/data/documents.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'native_signing_view.dart';
 
 class DetailsPage extends Page {
   final Document doc;
@@ -31,12 +36,44 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsState extends State<DetailsScreen> {
   final Document doc;
+  static const platform = MethodChannel('com.example/SigningView');
+
   _DetailsState(this.doc);
+
+  Future<void> _setNumber(newNumber) async {
+    String message;
+    try {
+      final int result = await platform.invokeMethod('setNumber', newNumber);
+      message = 'Returned: $result';
+    } on PlatformException catch (e) {
+      message = "Error: '${e.message}'.";
+    }
+
+    setState(() {
+      Fluttertoast.showToast(msg: message);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Просмотр документа')),
+      appBar: AppBar(
+          title: Text('Просмотр документа'),
+          actions: [
+            Padding(
+              padding: EdgeInsets.only(right: 20),
+              child: GestureDetector(
+                onTap: () {
+                  _setNumber(Random().nextInt(100));
+                },
+                child: Icon(
+                  Icons.refresh,
+                  size: 26,
+                ),
+              ),
+            )
+          ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8),
         child: Column(
@@ -45,10 +82,11 @@ class _DetailsState extends State<DetailsScreen> {
             TextWithPadding("Номер: ${doc.docNum}"),
             TextWithPadding("Дата: ${DateFormat.yMMMd().format(doc.docDate)}"),
             TextWithPadding("Описание: ${doc.desc}"),
-            if (!doc.filePath.isEmpty)
+            if (doc.filePath.endsWith(".pdf"))
               Expanded(
                 child: SfPdfViewer.asset(doc.filePath),
-              )
+              ),
+              Expanded(child: AndroidSigning()),
           ],
         ),
       ),

@@ -86,6 +86,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  fluttertoast:
+    dependency: "direct main"
+    description:
+      name: fluttertoast
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "8.0.8"
   http:
     dependency: transitive
     description:
@@ -195,42 +202,42 @@ packages:
       name: syncfusion_flutter_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "19.2.56"
+    version: "19.2.57"
   syncfusion_flutter_pdf:
     dependency: transitive
     description:
       name: syncfusion_flutter_pdf
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "19.2.56-beta.1"
+    version: "19.2.57-beta"
   syncfusion_flutter_pdfviewer:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_pdfviewer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "19.2.56-beta"
+    version: "19.2.57-beta"
   syncfusion_flutter_pdfviewer_macos:
     dependency: transitive
     description:
       name: syncfusion_flutter_pdfviewer_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "19.2.56-beta"
+    version: "19.2.57-beta"
   syncfusion_flutter_pdfviewer_platform_interface:
     dependency: transitive
     description:
       name: syncfusion_flutter_pdfviewer_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "19.2.56-beta"
+    version: "19.2.57-beta"
   syncfusion_flutter_pdfviewer_web:
     dependency: transitive
     description:
       name: syncfusion_flutter_pdfviewer_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "19.2.56-beta"
+    version: "19.2.57-beta"
   term_glyph:
     dependency: transitive
     description:
@@ -268,4 +275,4 @@ packages:
     version: "5.1.2"
 sdks:
   dart: ">=2.12.0 <3.0.0"
-  flutter: ">=1.20.0"
+  flutter: ">=1.22.2"
