@@ -43,7 +43,8 @@ class _DetailsState extends State<DetailsScreen> {
   Future<void> _setNumber(newNumber) async {
     String message;
     try {
-      final int result = await platform.invokeMethod('setNumber', newNumber);
+      ByteData data = await DefaultAssetBundle.of(context).load(doc.filePath);
+      final int result = await platform.invokeMethod('setNumber', data.buffer.asUint8List());
       message = 'Returned: $result';
     } on PlatformException catch (e) {
       message = "Error: '${e.message}'.";

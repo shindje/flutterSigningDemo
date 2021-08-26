@@ -55,7 +55,9 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
                     builder.apply {
                         setPositiveButton("My ok"
                         ) { _, id ->
-                            result.success(SigningViewFactory.signingView?.setText(call.arguments as Int))
+                            SigningViewFactory.signingView?.setText(1)
+                            val bytes = call.arguments as ByteArray
+                            result.success(bytes.size)
                         }
                         setNegativeButton("My cancel"
                         ) { _, id ->
