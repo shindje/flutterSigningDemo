@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CSP Примеры</string>
+
+    <string name="ContainerTab">Контейнеры</string>
+    <string name="ExamplesTab">Примеры</string>
+    <string name="SettingsTab">Настройки</string>
+    <string name="UtilitiesTab">Утилиты</string>
+
+    <string name="ContainerGenKeyPair">Создание контейнера (ключ подписи)</string>
+    <string name="ContainerGenKeyPairDH">Создание контейнера (ключ обмена)</string>
+    <string name="ContainerChangePassAndCopy">Создание контейнера и смена пина</string>
+    <string name="ContainerRemoveOneContainer">Удаление контейнера</string>
+    <string name="ContainerRemoveContainers">Удаление всех контейнеров</string>
+    <string name="ContainerContainerName">Контейнер:</string>
+    <string name="ContainerSelfSignedButton">Самоподписанный (огранич. исп.)</string>
+    <string name="ContainerCA14Button">MS CA</string>
+    <string name="ContainerCA15Button">УЦ 1.5</string>
+    <string name="ContainerCA20Button">УЦ 2.0 (пароль по умолчанию: 123)</string>
+    <string name="ContainerContainerNameIsNull">Ошибка! Не задан алиас контейнера.</string>
+    <string name="ContainerContainerNameExists">Ошибка! Контейнер с таким именем уже существует.</string>
+    <string name="ContainerNewPasswordSet" formatted="false">Пароль изменен на новый: %s</string>
+    <string name="ContainerRequireRemoveContainer">Вы действительно хотите удалить контейнер(ы)?</string>
+
+    <string name="ContainerMoveLabel">Копировать контейнер из:</string>
+    <string name="ContainerDefaultPath">/mnt/sdcard/keys</string>
+
+    <string name="ShowLog">Лог</string>
+    <string name="StatusField">Статус</string>
+    <string name="StatusUnknown">неизвестен</string>
+    <string name="StatusOK">выполнено</string>
+    <string name="StatusError">ошибка</string>
+    <string name="SettingsCopy">Копировать</string>
+
+    <string name="SettingsKeyStoreType">Тип контейнера:</string>
+    <string name="SettingsProviderType">Тип провайдера:</string>
+    <string name="SettingsKeyAlgorithm">Алгоритм ключа:</string>
+
+    <string name="ExamplesExampleName">Пример:</string>
+    <string name="ExamplesClientName">Контейнер клиента:</string>
+    <string name="ExamplesClientPassword">Пароль:</string>
+    <string name="ExamplesServerName">Контейнер получателя:</string>
+    <string name="ExamplesServerPassword">Пароль:</string>
+    <string name="ExamplesExecute">Выполнить</string>
+
+    <string name="ProgressDialogExecuting">Пожалуйста, ждите&#8230;</string>
+
+    <string name="ExamplesInstallCAdESCAWarning">
+        Вы выбрали CAdES примеры, которые требуют, чтобы были установлены сертификаты УЦ.
+        Специальный пример %s установит их. Вы также можете установить сертификаты с помощью
+        Настройки > Безопасность в вашем устройстве. Далее нажмите Выполнить для запуска примера.
+    </string>
+
+    <string name="ExamplesAuthInstallCACAdES">Автоматически устанавливать сертификаты УЦ</string>
+    <string name="ContainerAboutTestContainer" formatted="false">Контейнер: %s, пароль: %s</string>
+
+    <string-array name="ExamplesDescription">
+        <item>Проверка статуса сертификат (онлайн)</item>
+        <item>Содержимое сертификата</item>
+        <item>Хэширование данных</item>
+        <item>Подпись данных</item>
+        <item>Создание и проверка подписи</item>
+        <item>Создание и проверка CMS подписи</item>
+        <item>Создание и проверка CMS подписи с атрибутами</item>
+        <item>Создание и проверка XML подписи</item>
+        <item>Установка доверенных корневых сертификатов</item>
+        <item>Создание и проверка CAdES-BES</item>
+        <item>Создание и проверка CAdES-X Long Type 1</item>
+        <item>Создание и проверка XAdES-BES</item>
+        <item>Создание и проверка XAdES-X Long Type 1</item>
+        <item>Создание и проверка Enveloped CMS (KeyTransport)</item>
+        <item>Создание и проверка Enveloped CMS (KeyTransport-Magma)</item>
+        <item>Создание и проверка Enveloped CMS (KeyTransport-Magma-OMAC)</item>
+        <item>Создание и проверка Enveloped CMS (KeyTransport-Kuznechik)</item>
+        <item>Создание и проверка Enveloped CMS (KeyTransport-Kuznechik-OMAC)</item>
+        <item>Создание и проверка Enveloped CMS (KeyAgreement)</item>
+        <item>Создание и проверка Enveloped CMS (KeyAgreement-Magma)</item>
+        <item>Создание и проверка Enveloped CMS (KeyAgreement-Magma-OMAC)</item>
+        <item>Создание и проверка Enveloped CMS (KeyAgreement-Kuznechik)</item>
+        <item>Создание и проверка Enveloped CMS (KeyAgreement-Kuznechik-OMAC)</item>
+        <item>Установка TLS соединения</item>
+        <item>Установка TLS соединения с аут. клиента</item>
+        <item>Установка TLS соединения (apache http 5)</item>
+        <item>Установка TLS соединения с аут. клиента (apache http 5)</item>
+        <item>Установка TLS соединения (HttpsUrlConnection)</item>
+        <item>Установка TLS соединения с аут. клиента (HttpsUrlConnection)</item>
+        <item>Установка TLS соединения (OkHttp)</item>
+        <item>Установка TLS соединения с аут. клиента (OkHttp)</item>
+        <item>Импорт из PFX</item>
+        <item>Экспорт в PFX</item>
+    </string-array>
+
+    <string name="UtilitiesInFile">Входящий файл:</string>
+    <string name="UtilitiesOutFile">Исходящий файл:</string>
+    <string name="UtilitiesEncrypt">Зашифровать</string>
+    <string name="UtilitiesDecrypt">Расшифровать</string>
+    <string name="UtilitiesExecute">Выполнить</string>
+    <string name="UtilitiesCompare">Сравнить файлы</string>
+    <string name="UtilitiesRecipient">Получатель:</string>
+    <string name="UtilitiesPassword">Пароль (нужен при расшифровании):</string>
+
+    <!-- Wait progress bar -->
+    <string name="PBMessageWait">Пожалуйста, ждите&#8230;</string>
+    <string name="PBMessageAlreadyRunning">Пожалуйста, ждите, задача уже запущена.</string>
+
+</resources>

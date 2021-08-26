@@ -28,6 +28,17 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 android {
     compileSdkVersion 30
 
+    if (file("../internal/android/key/key.store").exists()) {
+        signingConfigs {
+            release {
+                storeFile file('../internal/android/key/key.store')
+                keyAlias = 'cprocsp_android'
+                storePassword 'CryptoPro'
+                keyPassword 'CryptoPro'
+            }
+        }
+    }
+
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
@@ -35,10 +46,12 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.signing"
-        minSdkVersion 19
+        minSdkVersion 24
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+
+        signingConfig signingConfigs.debug
     }
 
     buildTypes {
@@ -48,6 +61,18 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/Digest.CP'
+        exclude 'META-INF/Sign.CP'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+    }
+}
+
+configurations {
+    externalLibs
 }
 
 flutter {
@@ -56,4 +81,74 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.google.android.material:material:1.4.0'
+
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
+
+    implementation 'org.bouncycastle:bcprov-jdk15on:1.60'
+    implementation 'org.bouncycastle:bcpkix-jdk15on:1.60'
+    implementation 'commons-logging:commons-logging:1.2'
+    implementation 'org.apache.httpcomponents.client5:httpclient5:5.0'
+    implementation 'org.apache.httpcomponents.core5:httpcore5:5.0'
+    implementation 'org.ini4j:ini4j:0.5.1'
+    compileOnly 'org.json:json:20180813'
+    compileOnly 'xalan:serializer:2.7.2'
+    compileOnly 'xalan:xalan:2.7.2'
+    implementation 'commons-codec:commons-codec:1.14'
+    implementation 'org.apache.santuario:xmlsec:1.4.4'
+    implementation 'com.squareup.okhttp3:okhttp:4.8.0'
+
+    if (findProject(':JInitCSP') != null) {
+        externalLibs implementation('ru.aladdin:jcpcsclite:1.1.0.45')
+        externalLibs implementation('ru.rutoken:rtserviceconnection:1.0.3')
+        externalLibs implementation('com.objsys:asn1rt:5.74.0')
+        externalLibs implementation('ru.crypto:samples:2.0' + rootProject.ext.revision){
+            transitive=false
+        }
+        externalLibs implementation('ru.crypto:AdES-core:2.0' + rootProject.ext.revision){
+            transitive=false
+        }
+        externalLibs implementation('ru.crypto:ASN1P:2.0' + rootProject.ext.revision){
+            transitive=false
+        }
+        externalLibs implementation('ru.crypto:CAdESAPI:2.0' + rootProject.ext.revision){
+            transitive=false
+        }
+        externalLibs implementation('ru.crypto:cpSSL:2.0' + rootProject.ext.revision){
+            transitive=false
+        }
+        externalLibs implementation('ru.crypto:JCP:2.0' + rootProject.ext.revision){
+            transitive=false
+        }
+        externalLibs implementation('ru.crypto:JCPRequest:2.0' + rootProject.ext.revision){
+            transitive=false
+        }
+        externalLibs implementation('ru.crypto:JCPRevCheck:2.0' + rootProject.ext.revision){
+            transitive=false
+        }
+        externalLibs implementation('ru.crypto:JCPRevTools:2.0' + rootProject.ext.revision){
+            transitive=false
+        }
+        externalLibs implementation('ru.crypto:JCPxml:2.0' + rootProject.ext.revision){
+            transitive=false
+        }
+        externalLibs implementation('ru.crypto:JCSP-android:2.0' + rootProject.ext.revision){
+            transitive=false
+        }
+        externalLibs implementation('ru.crypto:XAdESAPI:2.0' + rootProject.ext.revision){
+            transitive=false
+        }
+        externalLibs implementation('ru.crypto:XMLDSigRI:2.0' + rootProject.ext.revision){
+            transitive=false
+        }
+        implementation(project(path: ':JInitCSP')) {
+            transitive=false
+        }
+        externalLibs(project(path: ':JInitCSP', configuration: 'default')){
+            transitive=false
+        }
+    }
+    else {
+        implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    }
 }

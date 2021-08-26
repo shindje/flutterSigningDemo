@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llTop"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/SettingsKeyStoreType"
+        android:id="@+id/tvSettingKeyStore"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:layout_gravity="top|center_horizontal"/>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spKeyStore"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/SettingsProviderType"
+        android:id="@+id/tvSettingProviderStore"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="5dp"/>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spProviderType"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ExamplesClientName"
+        android:id="@+id/tvExamplesClientName"
+        android:layout_gravity="top|center_horizontal"
+        />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spExamplesClientList"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginBottom="10dp"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Refresh"
+        android:id="@+id/btnRefresh"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign"
+        android:id="@+id/btnSign"
+        />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/llSubTop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <androidx.viewpager.widget.ViewPager
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".MainActivity"/>
+
+    </LinearLayout>
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/svLog"
+        android:background="@android:color/white"
+        android:fadeScrollbars="false"
+        android:fillViewport="true">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/llSubBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/etLog"
+                android:layout_gravity="center_horizontal|top"
+                android:enabled="true"
+                android:editable="false"
+                android:background="@android:color/white"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="5dp"
+                android:longClickable="true"
+                android:gravity="left"
+                android:textIsSelectable="true"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <TextView android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvOpStatus"
+        android:textStyle="bold"
+        android:gravity="center|center_vertical"
+        android:text="@string/StatusUnknown"
+        android:layout_gravity="center_horizontal"
+        android:textSize="16dp"
+        android:background="@android:color/darker_gray"
+        android:textColor="@android:color/black"/>
+
+</LinearLayout>
+
+

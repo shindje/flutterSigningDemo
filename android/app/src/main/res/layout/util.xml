@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadeScrollbars="false"
+        android:fillViewport="true">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/llUtilMain"
+    android:padding="5dp">
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/UtilitiesCmsUtil"
+            android:id="@+id/tvUtilitiesCmsUtil"
+            android:gravity="center"/>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+        <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:id="@+id/rgEncryptDecrypt">
+
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/UtilitiesEncrypt"
+                    android:id="@+id/rbEncrypt"
+                    android:layout_weight="1"/>
+
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/UtilitiesDecrypt"
+                    android:id="@+id/rbDecrypt"
+                    android:layout_weight="1"/>
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <TextView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/UtilitiesInFile"
+              android:id="@+id/tvInFile"
+              android:layout_marginTop="5dp"/>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:id="@+id/llInFileLayout">
+
+        <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/etInFile"
+                android:layout_weight="1"
+                android:singleLine="true"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Utilities3Dots"
+                android:id="@+id/btOpenInFile"/>
+
+    </LinearLayout>
+
+    <TextView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/UtilitiesOutFile"
+              android:id="@+id/tvOutFile"/>
+
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:weightSum="1"
+                  android:id="@+id/llOutFileLayout">
+
+        <EditText android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/etOutFile"
+                  android:layout_weight="1"
+                  android:singleLine="true"/>
+
+        <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Utilities3Dots"
+                android:id="@+id/btOpenOutFile"/>
+
+    </LinearLayout>
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/UtilitiesRecipient"
+              android:id="@+id/tvRecipient"
+              android:layout_marginTop="5dp"/>
+
+    <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spRecipient"/>
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/UtilitiesPassword"
+              android:id="@+id/tvPassword"
+              android:layout_marginTop="5dp"/>
+
+    <EditText android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/etPassword"
+              android:singleLine="true"/>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp">
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/UtilitiesExecute"
+                android:id="@+id/btExecute"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/UtilitiesCompare"
+                android:id="@+id/btCompare"/>
+
+    </LinearLayout>
+
+</LinearLayout>
+
+</ScrollView>

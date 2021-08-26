@@ -15,6 +15,11 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven {
+            // Содержит наши релизные библиотеки с номером ревизии в названии,
+            // например, JCP-2.0.XXXXX.jar, где XXXXX - номер ревизии.
+            url "http://build-jcp/jcp_rep"
+        }
     }
 }
 

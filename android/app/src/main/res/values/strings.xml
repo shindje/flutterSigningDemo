@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CSP Examples</string>
+    <string name="ContainerTab">Containers</string>
+    <string name="ExamplesTab">Examples</string>
+    <string name="SettingsTab">Settings</string>
+    <string name="UtilitiesTab">Utilities</string>
+
+    <string name="ContainerGenKeyPair">Create container (signature key)</string>
+    <string name="ContainerGenKeyPairDH">Create container (exchange key)</string>
+    <string name="ContainerChangePassAndCopy">Create container and change pin</string>
+    <string name="ContainerRemoveOneContainer">Delete container</string>
+    <string name="ContainerRemoveContainers">Delete all containers</string>
+    <string name="ContainerContainerName">Container:</string>
+    <string name="ContainerSelfSignedButton">Self-signed (limited use)</string>
+    <string name="ContainerCA14Button">MS CA</string>
+    <string name="ContainerCA15Button">CA 1.5</string>
+    <string name="ContainerCA20Button">CA 2.0 (default password: 123)</string>
+    <string name="ContainerContainerNameIsNull">An error occurred! Container alias not set.</string>
+    <string name="ContainerContainerNameExists">An error occurred! Container with this name already exists.</string>
+    <string name="ContainerNewPasswordSet" formatted="false">Password has been changed: %s</string>
+    <string name="ContainerRequireRemoveContainer">Do you want to remove container(s)?</string>
+
+    <string name="ContainerMoveLabel">Copy container from:</string>
+    <string name="ContainerDefaultPath">/mnt/sdcard/keys</string>
+
+    <string name="ShowLog">Log</string>
+    <string name="StatusField">Status</string>
+    <string name="StatusUnknown">unknown</string>
+    <string name="StatusOK">done</string>
+    <string name="StatusError">failed</string>
+    <string name="SettingsCopy">Copy</string>
+
+    <string name="SettingsKeyStoreType">Key store type:</string>
+    <string name="SettingsProviderType">Provider type:</string>
+    <string name="SettingsKeyAlgorithm">KeyAlgorithm:</string>
+
+    <string name="ExamplesExampleName">Example:</string>
+    <string name="ExamplesClientName">Client container:</string>
+    <string name="ExamplesClientPassword">Client password:</string>
+    <string name="ExamplesServerName">Recipient container:</string>
+    <string name="ExamplesServerPassword">Recipient password:</string>
+    <string name="ExamplesExecute">Execute</string>
+
+    <string name="ProgressDialogExecuting">Please wait&#8230;</string>
+
+    <string name="ExamplesInstallCAdESCAWarning">
+        You have chosen a CAdES example which requires CA certificates to being installed.
+        The special example %s will install the certificates. You can also install the
+        certificates using Settings > Security on your device. Press Execute to run
+        the example.
+    </string>
+
+    <string name="ExamplesAuthInstallCACAdES">Install CA certificates automatically</string>
+    <string name="ContainerAboutTestContainer" formatted="false">Container: %s, password: %s</string>
+
+    <string-array name="providerTypes">
+        <item>GOST R 34.10&#8211;2001</item>
+        <item>GOST R 34.10&#8211;2012 (256)</item>
+        <item>GOST R 34.10&#8211;2012 (512)</item>
+    </string-array>
+
+    <string-array name="ExamplesDescription">
+        <item>Check certificate status (online)</item>
+        <item>Show certificate content</item>
+        <item>Hash some data</item>
+        <item>Sign some data</item>
+        <item>Create and verify plain signature</item>
+        <item>Create and verify CMS signature</item>
+        <item>Create and verify CMS signature with attributes</item>
+        <item>Create and verify XML signature</item>
+        <item>Install trusted test root certificates</item>
+        <item>Create and verify CAdES-BES signature</item>
+        <item>Create and verify CAdES-X Long Type 1 signature</item>
+        <item>Create and verify XAdES-BES signature</item>
+        <item>Create and verify XAdES-X Long Type 1 signature</item>
+        <item>Encrypt and decrypt Enveloped CMS (KeyTransport)</item>
+        <item>Encrypt and decrypt Enveloped CMS (KeyTransport-Magma)</item>
+        <item>Encrypt and decrypt Enveloped CMS (KeyTransport-Magma-OMAC)</item>
+        <item>Encrypt and decrypt Enveloped CMS (KeyTransport-Kuznechik)</item>
+        <item>Encrypt and decrypt Enveloped CMS (KeyTransport-Kuznechik-OMAC)</item>
+        <item>Encrypt and decrypt Enveloped CMS (KeyAgreement)</item>
+        <item>Encrypt and decrypt Enveloped CMS (KeyAgreement-Magma)</item>
+        <item>Encrypt and decrypt Enveloped CMS (KeyAgreement-Magma-OMAC)</item>
+        <item>Encrypt and decrypt Enveloped CMS (KeyAgreement-Kuznechik)</item>
+        <item>Encrypt and decrypt Enveloped CMS (KeyAgreement-Kuznechik-OMAC)</item>
+        <item>Establish TLS connection</item>
+        <item>Establish TLS connection with client auth</item>
+        <item>Establish TLS connection (apache http 5)</item>
+        <item>Establish TLS connection with client auth (apache http 5)</item>
+        <item>Establish TLS connection (HttpsUrlConnection)</item>
+        <item>Establish TLS connection with client auth (HttpsUrlConnection)</item>
+        <item>Establish TLS connection (OkHttp)</item>
+        <item>Establish TLS connection with client auth (OkHttp)</item>
+        <item>Import from PFX</item>
+        <item>Export to PFX</item>
+    </string-array>
+
+    <string-array name="ExampleClasses">
+        <item>CheckCertStatusExample</item>
+        <item>PrintCertificateContentExample</item>
+        <item>HashExample</item>
+        <item>SignExample</item>
+        <item>VerifyExample</item>
+        <item>CMSSimpleSignExample</item>
+        <item>CMSWithAttributesSignExample</item>
+        <item>XMLSignVerifyExample</item>
+        <item>InstallCAdESTestTrustCertExample</item>
+        <item>CAdESBESSignVerifyExample</item>
+        <item>CAdESXLT1SignVerifyExample</item>
+        <item>XAdESBESSignVerifyExample</item>
+        <item>XAdESXLT1SignVerifyExample</item>
+        <item>TransportEnvelopedCMSExample</item>
+        <item>TransportEnvelopedCMSMagmaExample</item>
+        <item>TransportEnvelopedCMSMagmaOmacExample</item>
+        <item>TransportEnvelopedCMSKuznechikExample</item>
+        <item>TransportEnvelopedCMSKuznechikOmacExample</item>
+        <item>AgreementEnvelopedCMSExample</item>
+        <item>AgreementEnvelopedCMSMagmaExample</item>
+        <item>AgreementEnvelopedCMSMagmaOmacExample</item>
+        <item>AgreementEnvelopedCMSKuznechikExample</item>
+        <item>AgreementEnvelopedCMSKuznechikOmacExample</item>
+        <item>TLSSimpleExample</item>
+        <item>TLSClientAuthExample</item>
+        <item>HttpTLSSimpleExample</item>
+        <item>HttpTLSClientAuthExample</item>
+        <item>HttpsUrlConnectionSimpleExample</item>
+        <item>HttpsUrlConnectionClientAuthExample</item>
+        <item>OkHttpSimpleExample</item>
+        <item>OkHttpClientAuthExample</item>
+        <item>ImportPfxExample</item>
+        <item>ExportPfxExample</item>
+    </string-array>
+
+    <string-array name="ExampleRequireWrittenPin">
+        <item>TLSClientAuthExample</item>
+        <item>HttpTLSClientAuthExample</item>
+        <item>HttpsUrlConnectionClientAuthExample</item>
+        <item>OkHttpClientAuthExample</item>
+    </string-array>
+
+    <string-array name="ExampleRequireServerContainer">
+        <item>TransportEnvelopedCMSExample</item>
+        <item>TransportEnvelopedCMSMagmaExample</item>
+        <item>TransportEnvelopedCMSMagmaOmacExample</item>
+        <item>TransportEnvelopedCMSKuznechikExample</item>
+        <item>TransportEnvelopedCMSKuznechikOmacExample</item>
+        <item>AgreementEnvelopedCMSExample</item>
+        <item>AgreementEnvelopedCMSMagmaExample</item>
+        <item>AgreementEnvelopedCMSMagmaOmacExample</item>
+        <item>AgreementEnvelopedCMSKuznechikExample</item>
+        <item>AgreementEnvelopedCMSKuznechikOmacExample</item>
+    </string-array>
+
+    <string name="UtilitiesInFile">Input file:</string>
+    <string name="UtilitiesOutFile">Output file:</string>
+    <string name="UtilitiesEncrypt">Encrypt</string>
+    <string name="UtilitiesDecrypt">Decrypt</string>
+    <string name="UtilitiesExecute">Execute</string>
+    <string name="UtilitiesCompare">Compare files</string>
+    <string name="UtilitiesRecipient">Recipient:</string>
+    <string name="Utilities3Dots">&#8230;</string>
+    <string name="UtilitiesCmsUtil">CMSUtil</string>
+    <string name="UtilitiesPassword">Password (required if decrypting enabled):</string>
+
+    <!-- Wait progress bar -->
+    <string name="PBMessageWait">Please, wait&#8230;</string>
+    <string name="PBMessageAlreadyRunning">Please, wait, the task has already been run.</string>
+
+</resources>
