@@ -46,7 +46,7 @@ abstract class ThreadExecuted {
      * @throws Exception
      */
     @Throws(Exception::class)
-    protected abstract fun executeOne()
+    protected abstract fun executeOne(): Any?
 
     /**
      * Метод для выполнения задачи в потоке.
@@ -55,10 +55,10 @@ abstract class ThreadExecuted {
      */
     fun execute() {
         try {
-            executeOne()
+            val result = executeOne()
             Logger.setStatusOK()
             if (finalListener != null) {
-                finalListener!!.onComplete()
+                finalListener!!.onComplete(result)
             } // if
         } catch (e: Exception) {
             e.message?.let { Logger.log(it) }

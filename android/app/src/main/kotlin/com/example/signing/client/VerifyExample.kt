@@ -48,7 +48,7 @@ class VerifyExample
      */
     private inner class VerifyThread : ThreadExecuted() {
         @Throws(Exception::class)
-        protected override fun executeOne() {
+        override fun executeOne() : Any? {
             Logger.log("Create signature.")
 
             // Создаем подпись, чтобы потом ее проверить.
@@ -68,7 +68,7 @@ class VerifyExample
             )
             if (certificate == null) {
                 Logger.log("Certificate is null.")
-                return
+                return null
             } // if
             Logger.log(
                 "Init Signature: " +
@@ -94,10 +94,13 @@ class VerifyExample
             // Проверяем подпись.
             if (sn.verify(sign)) {
                 Logger.log("Data has been verified (OK).")
+                return sign
             } // if
             else {
                 throw Exception("Invalid signature.")
+                return null
             } // else
+
         }
     }
 }

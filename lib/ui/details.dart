@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -44,8 +45,8 @@ class _DetailsState extends State<DetailsScreen> {
     String message;
     try {
       ByteData data = await DefaultAssetBundle.of(context).load(doc.filePath);
-      final int result = await platform.invokeMethod('setNumber', data.buffer.asUint8List());
-      message = 'Returned: $result';
+      final Uint8List? result = await platform.invokeMethod('setNumber', data.buffer.asUint8List());
+      message = 'Returned: ${result != null ? result.lengthInBytes : "empty"}';
     } on PlatformException catch (e) {
       message = "Error: '${e.message}'.";
     }
@@ -87,7 +88,7 @@ class _DetailsState extends State<DetailsScreen> {
               Expanded(
                 child: SfPdfViewer.asset(doc.filePath),
               ),
-              Expanded(child: AndroidSigning()),
+              //Expanded(child: AndroidSigning()),
           ],
         ),
       ),

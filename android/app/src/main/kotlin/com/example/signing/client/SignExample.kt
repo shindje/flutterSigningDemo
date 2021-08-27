@@ -48,8 +48,8 @@ class SignExample
      */
     private inner class SignThread() : ThreadExecuted() {
         @Throws(Exception::class)
-        protected override fun executeOne() {
-            sign()
+        override fun executeOne(): Any? {
+            return sign()
         }
     }
 

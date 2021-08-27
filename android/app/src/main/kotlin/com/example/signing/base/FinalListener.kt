@@ -29,5 +29,6 @@ interface FinalListener {
      * Обработчик.
      *
      */
-    fun onComplete()
+    fun onComplete(result: Any? = null)
+
 }

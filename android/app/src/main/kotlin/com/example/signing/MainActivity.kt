@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.*
 import androidx.fragment.app.FragmentManager
 import androidx.viewpager.widget.ViewPager
+import com.example.signing.base.FinalListener
 import com.example.signing.interfaces.HashData
 import com.example.signing.util.*
 import io.flutter.embedding.android.FlutterActivity
@@ -50,24 +51,112 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
                 if (call.method == "setNumber") {
 
                     val builder = AlertDialog.Builder(this)
-                    builder.setMessage("my message nnn")
-                        .setTitle("my title")
-                    builder.apply {
-                        setPositiveButton("My ok"
+                    builder.setMessage("Выбор контейнера")
+                        .setTitle("Подписание")
+
+                    val dialogView = layoutInflater.inflate(R.layout.signing_types_dialog, null)
+                    dialogInit(dialogView)
+
+                    builder
+                        .setView(dialogView)
+                        .setPositiveButton("Подписать"
                         ) { _, id ->
                             SigningViewFactory.signingView?.setText(1)
                             val bytes = call.arguments as ByteArray
-                            result.success(bytes.size)
+//                            result.success(bytes.size)
+                            doSign(object: FinalListener {
+                                override fun onComplete(res: Any?) {
+                                    runOnUiThread {
+                                        if (res != null)
+                                            result.success(res as ByteArray)
+                                        else
+                                            result.success(res)
+                                    }
+                                }
+                            })
                         }
-                        setNegativeButton("My cancel"
+                            .setNegativeButton("Отмена"
                         ) { _, id ->
-                            result.error("cancelErrorCode", "my cancel pressed", null)
+                            result.error("cancelErrorCode", "Подпись отменена", null)
                         }
-                    }
+
                     val dialog = builder.create()
                     dialog.show()
                 }
         }
+    }
+
+    private fun dialogInit(v: View) {
+        // Тип контейнера.
+        spKeyStoreType = v.findViewById(R.id.dlgSpKeyStore) as Spinner
+
+        // Получение списка поддерживаемых типов хранилищ.
+        val keyStoreTypeList: List<String> = KeyStoreType.keyStoreTypeList
+
+        // Создаем ArrayAdapter для использования строкового массива
+        // и способа отображения объекта.
+        val keyStoreTypeAdapter = ArrayAdapter(
+            this, android.R.layout.simple_spinner_item,
+            keyStoreTypeList
+        )
+
+        // Способ отображения.
+        keyStoreTypeAdapter.setDropDownViewResource(
+            android.R.layout.simple_spinner_dropdown_item
+        )
+
+        spKeyStoreType.adapter = keyStoreTypeAdapter
+        spKeyStoreType.onItemSelectedListener = this
+///////////////////////////////////////////////////////////////////////////////////////
+
+        // Тип провайдера.
+        spProviderType = v.findViewById(R.id.dlgSpProviderType) as Spinner
+
+        // Создаем ArrayAdapter для использования строкового массива
+        // и способа отображения объекта.
+        val providerTypeAdapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.providerTypes, android.R.layout.simple_spinner_item
+        )
+
+        // Способ отображения.
+        providerTypeAdapter.setDropDownViewResource(
+            android.R.layout.simple_spinner_dropdown_item
+        )
+
+        spProviderType.adapter = providerTypeAdapter
+        spProviderType.onItemSelectedListener = this
+///////////////////////////////////////////////////////////////////////////////////////
+
+        // Список клиентских алиасов.
+        spClientList = v.findViewById(R.id.dlgSpExamplesClientList) as Spinner
+
+        val containerAliasAdapter = ArrayAdapter<String>(
+            this, android.R.layout.simple_spinner_item
+        )
+
+        // Способ отображения.
+
+
+        // Способ отображения.
+        containerAliasAdapter.setDropDownViewResource(
+            android.R.layout.simple_spinner_dropdown_item
+        )
+
+        spClientList.adapter = containerAliasAdapter
+
+        myLoadClientList(containerAliasAdapter)
+///////////////////////////////////////////////////////////////////////////////////////
+        val btnRefresh = v.findViewById(R.id.btnRefresh) as Button
+        btnRefresh.setOnClickListener {
+            myLoadClientList(containerAliasAdapter)
+        }
+
+//        val btnSign = findViewById(R.id.btnSign) as Button
+//        btnSign.setOnClickListener {
+//            doSign()
+//        }
+
     }
 
     // Номера вкладок.
@@ -279,15 +368,15 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
             myLoadClientList(containerAliasAdapter)
         }
 
-        val btnSign = findViewById(R.id.btnSign) as Button
-        btnSign.setOnClickListener {
-            doSign()
-        }
+//        val btnSign = findViewById(R.id.btnSign) as Button
+//        btnSign.setOnClickListener {
+//            doSign()
+//        }
 
     }
 
-    private val EXAMPLE_PACKAGE = "com.example.androidsignongdemo.client.example."
-    private fun doSign() {
+    private val EXAMPLE_PACKAGE = "com.example.signing.client."
+    private fun doSign(finalListener: FinalListener) {
 
         val exampleClassName = "VerifyExample"
 
@@ -415,7 +504,7 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
 
             // Выполнение примера.
             val exampleImpl: HashData = exampleConstructor.newInstance(adapter) as HashData
-            exampleImpl.getResult(null)
+            exampleImpl.getResult(finalListener)
 
         } catch (e: Exception) {
             Logger.log(e.message!!)

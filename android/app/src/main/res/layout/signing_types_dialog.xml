@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Выбор контейнера"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/SettingsKeyStoreType"
+        android:id="@+id/tvSettingKeyStore"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:layout_gravity="top|center_horizontal"/>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dlgSpKeyStore"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/SettingsProviderType"
+        android:id="@+id/tvSettingProviderStore"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="5dp"/>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dlgSpProviderType"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ExamplesClientName"
+        android:id="@+id/tvExamplesClientName"
+        android:layout_gravity="top|center_horizontal"
+        />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dlgSpExamplesClientList"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginBottom="10dp"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Refresh"
+        android:id="@+id/btnRefresh"
+        />
+
+</LinearLayout>
