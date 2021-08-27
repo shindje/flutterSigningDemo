@@ -27,7 +27,7 @@ interface HashData {
      * @throws Exception
      */
     @Throws(Exception::class)
-    fun getResult(listener: FinalListener?)
+    fun getResult(data: ByteArray?, listener: FinalListener?)
 
     companion object {
         /**

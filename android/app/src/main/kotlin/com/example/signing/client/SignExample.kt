@@ -35,10 +35,10 @@ class SignExample
  */
     (adapter: ContainerAdapter?) : SignData(adapter!!, false) {
     @Throws(Exception::class)
-    override fun getResult(listener: FinalListener?) {
-        val thread: SignThread = SignThread()
+    override fun getResult(data: ByteArray?, listener: FinalListener?) {
+        val thread = SignThread()
         thread.addFinalListener(listener)
-        getThreadResult(thread)
+        getThreadResult(thread, data)
     }
 
     /**
@@ -48,8 +48,8 @@ class SignExample
      */
     private inner class SignThread() : ThreadExecuted() {
         @Throws(Exception::class)
-        override fun executeOne(): Any? {
-            return sign()
+        override fun executeOne(data: ByteArray?): Any? {
+            return sign(data)
         }
     }
 
@@ -60,7 +60,7 @@ class SignExample
      * @throws Exception
      */
     @Throws(Exception::class)
-    fun sign(): ByteArray? {
+    fun sign(data: ByteArray?): ByteArray? {
         Logger.log("Load key container to sign data.")
 
         // Тип контейнера по умолчанию.
@@ -89,7 +89,7 @@ class SignExample
         )
         Logger.log("Init signature by private key: " + privateKey)
         sn.initSign(privateKey)
-        sn.update(Constants.MESSAGE.toByteArray())
+        sn.update(data)
 
         // Формируем подпись.
         Logger.log(

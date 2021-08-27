@@ -35,10 +35,10 @@ class VerifyExample
  */
     (adapter: ContainerAdapter?) : SignData(adapter!!, false) {
     @Throws(Exception::class)
-    override fun getResult(listener: FinalListener?) {
+    override fun getResult(data: ByteArray?, listener: FinalListener?) {
         val thread: VerifyThread = VerifyThread()
         thread.addFinalListener(listener)
-        getThreadResult(thread)
+        getThreadResult(thread, data)
     }
 
     /**
@@ -48,12 +48,12 @@ class VerifyExample
      */
     private inner class VerifyThread : ThreadExecuted() {
         @Throws(Exception::class)
-        override fun executeOne() : Any? {
+        override fun executeOne(data: ByteArray?) : Any? {
             Logger.log("Create signature.")
 
             // Создаем подпись, чтобы потом ее проверить.
             val signData = SignExample(containerAdapter)
-            val sign: ByteArray? = signData.sign()
+            val sign: ByteArray? = signData.sign(data)
             Logger.log("Load key container to verify signature.")
 
             // Тип контейнера по умолчанию.
@@ -87,7 +87,7 @@ class VerifyExample
             )
             sn.initVerify(certificate)
             Logger.log("Source data: " + Constants.MESSAGE)
-            sn.update(Constants.MESSAGE.toByteArray())
+            sn.update(data)
             Logger.log("Verify signature:")
             Logger.log(sign!!, true)
 

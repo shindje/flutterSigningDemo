@@ -41,12 +41,12 @@ class _DetailsState extends State<DetailsScreen> {
 
   _DetailsState(this.doc);
 
-  Future<void> _setNumber(newNumber) async {
+  Future<void> _sign() async {
     String message;
     try {
       ByteData data = await DefaultAssetBundle.of(context).load(doc.filePath);
-      final Uint8List? result = await platform.invokeMethod('setNumber', data.buffer.asUint8List());
-      message = 'Returned: ${result != null ? result.lengthInBytes : "empty"}';
+      final Uint8List? result = await platform.invokeMethod('sign', data.buffer.asUint8List());
+      message = 'Returned data size: ${result != null ? result.lengthInBytes : "empty"}';
     } on PlatformException catch (e) {
       message = "Error: '${e.message}'.";
     }
@@ -66,7 +66,7 @@ class _DetailsState extends State<DetailsScreen> {
               padding: EdgeInsets.only(right: 20),
               child: GestureDetector(
                 onTap: () {
-                  _setNumber(Random().nextInt(100));
+                  _sign();
                 },
                 child: Icon(
                   Icons.refresh,

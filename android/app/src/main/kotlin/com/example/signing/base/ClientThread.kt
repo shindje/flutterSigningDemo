@@ -22,7 +22,7 @@ import com.example.signing.util.ProgressDialogHolder
  * 29/05/2013
  *
  */
-class ClientThread(task: ThreadExecuted?, progressDialogHolder: ProgressDialogHolder?) :
+class ClientThread(task: ThreadExecuted?, progressDialogHolder: ProgressDialogHolder?, val data: ByteArray?) :
     Thread() {
     /**
      * Выполняемая задача.
@@ -60,7 +60,7 @@ class ClientThread(task: ThreadExecuted?, progressDialogHolder: ProgressDialogHo
         }
 
         // Выполняем задачу.
-        executedTask?.execute()
+        executedTask?.execute(data)
 
         // Закрываем окно ожидания.
         Logger.log("Client thread finished job.")

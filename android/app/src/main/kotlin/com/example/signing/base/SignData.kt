@@ -93,7 +93,8 @@ abstract class SignData protected constructor(adapter: ContainerAdapter, signAtt
         @Throws(Exception::class)
         fun getThreadResult(
             context: Context?,
-            task: ThreadExecuted?
+            task: ThreadExecuted?,
+            data: ByteArray?
         ) {
 
             // Формирование окна ожидания.
@@ -103,7 +104,7 @@ abstract class SignData protected constructor(adapter: ContainerAdapter, signAtt
 
             // Запуск потока с задачей, который можно
             // прервать. Окно будет закрыто в нем.
-            val clientThread = ClientThread(task, progressDialog)
+            val clientThread = ClientThread(task, progressDialog, data)
             clientThread.setPriority(Thread.NORM_PRIORITY)
             class CancelListener() : DialogInterface.OnCancelListener {
                 override fun onCancel(dialog: DialogInterface) {
@@ -208,8 +209,8 @@ abstract class SignData protected constructor(adapter: ContainerAdapter, signAtt
      * @throws Exception
      */
     @Throws(Exception::class)
-    fun getThreadResult(task: ThreadExecuted?) {
-        getThreadResult(containerAdapter?.context, task)
+    fun getThreadResult(task: ThreadExecuted?, data: ByteArray?) {
+        getThreadResult(containerAdapter?.context, task, data)
     }
 
     /**

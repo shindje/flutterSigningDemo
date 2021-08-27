@@ -46,16 +46,16 @@ abstract class ThreadExecuted {
      * @throws Exception
      */
     @Throws(Exception::class)
-    protected abstract fun executeOne(): Any?
+    protected abstract fun executeOne(data: ByteArray?): Any?
 
     /**
      * Метод для выполнения задачи в потоке.
      * Задача записана внутри метода.
      *
      */
-    fun execute() {
+    fun execute(data: ByteArray?) {
         try {
-            val result = executeOne()
+            val result = executeOne(data)
             Logger.setStatusOK()
             if (finalListener != null) {
                 finalListener!!.onComplete(result)

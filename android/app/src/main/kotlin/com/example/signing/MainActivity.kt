@@ -48,7 +48,7 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
             .registerViewFactory("ru.esoft/signingView", SigningViewFactory())
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "com.example/SigningView").setMethodCallHandler {
                 call, result ->
-                if (call.method == "setNumber") {
+                if (call.method == "sign") {
 
                     val builder = AlertDialog.Builder(this)
                     builder.setMessage("Выбор контейнера")
@@ -61,10 +61,8 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
                         .setView(dialogView)
                         .setPositiveButton("Подписать"
                         ) { _, id ->
-                            SigningViewFactory.signingView?.setText(1)
                             val bytes = call.arguments as ByteArray
-//                            result.success(bytes.size)
-                            doSign(object: FinalListener {
+                            doSign(bytes, object: FinalListener {
                                 override fun onComplete(res: Any?) {
                                     runOnUiThread {
                                         if (res != null)
@@ -376,7 +374,7 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
     }
 
     private val EXAMPLE_PACKAGE = "com.example.signing.client."
-    private fun doSign(finalListener: FinalListener) {
+    private fun doSign(data: ByteArray, finalListener: FinalListener) {
 
         val exampleClassName = "VerifyExample"
 
@@ -504,7 +502,7 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
 
             // Выполнение примера.
             val exampleImpl: HashData = exampleConstructor.newInstance(adapter) as HashData
-            exampleImpl.getResult(finalListener)
+            exampleImpl.getResult(data, finalListener)
 
         } catch (e: Exception) {
             Logger.log(e.message!!)
@@ -550,7 +548,7 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
 
     override fun onItemSelected(adapterView: AdapterView<*>, view: View?, i: Int, l: Long) {
         when (adapterView.id) {
-            R.id.spKeyStore -> {
+            R.id.dlgSpKeyStore -> {
                 if (keyStoreTypeIndex != i) {
                     val keyStoreType = adapterView.getItemAtPosition(i) as String
                     KeyStoreType.saveCurrentType(keyStoreType)
@@ -558,7 +556,7 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
                     settingsChanged = true // настройка изменилась
                 } // if
             }
-            R.id.spProviderType -> {
+            R.id.dlgSpProviderType -> {
                 if (providerTypeIndex != i) {
                     val provType = adapterView.getItemAtPosition(i) as String
                     ProviderType.saveCurrentType(provType)
@@ -648,6 +646,8 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
          */
         val hdAliases: MutableList<String> = ArrayList()
         override fun doInBackground(vararg arg0: Void): Int {
+            Log.d("<<ContainerTask>>", "${KeyStoreType.currentType()} ${ProviderType.currentProviderType()}")
+
             allAliases.addAll(
                 KeyStoreUtil.aliases(
                     KeyStoreType.currentType(),
