@@ -61,6 +61,9 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
                         .setView(dialogView)
                         .setPositiveButton("Подписать"
                         ) { _, id ->
+                            val selected = spClientList.getSelectedItem() as String?
+                            if (selected.isNullOrBlank())
+                                result.error("cancelErrorCode", "Контейнер не выбран", null)
                             val bytes = call.arguments as ByteArray
                             doSign(bytes, object: FinalListener {
                                 override fun onComplete(res: Any?) {
@@ -165,33 +168,6 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
 
     }
 
-    // Номера вкладок.
-
-    // Номера вкладок.
-    val TAB_CONTAINERS = 0 // влияет на список контейнеров
-
-    val TAB_EXAMPLES = 1 // список контейнеров
-
-    val TAB_UTILITIES = 2 // список контейнеров
-
-    val TAB_SETTINGS = 3 // влияет на список контейнеров
-
-
-    /**
-     * Элемент для отображения вкладки.
-     */
-    private var viewPager: ViewPager? = null
-
-    /**
-     * Менеджер контейнеров.
-     */
-    private var containerManager: AsyncTaskManager? = null
-
-    /**
-     * Менеджер вкладок.
-     */
-    private var fragmentManager: FragmentManager? = null
-
     /**
      * Список контейнеров по заданному типу.
      */
@@ -202,10 +178,6 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
      */
     private val cacheHDAliases: MutableList<String> = ArrayList()
 
-    /**
-     * Флаг разового выполнения при создании.
-     */
-    private val ooCreateOnce = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -214,19 +186,6 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
             Constants.APP_LOGGER_TAG, "Load application: " +
                     packageName
         )
-
-        // Версия приложения в заголовке.
-
-
-        // Версия приложения в заголовке.
-        val title = getString(R.string.app_name) +
-                ", v. " + AppUtils.getApplicationVersion(this)
-
-        setTitle(title)
-
-        // 1. Инициализация провайдеров: CSP и java-провайдеров
-        // (Обязательная часть).
-
 
         // 1. Инициализация провайдеров: CSP и java-провайдеров
         // (Обязательная часть).
@@ -241,17 +200,8 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
         // 2. Копирование тестовых контейнеров для подписи,
         // проверки подписи, шифрования и TLS (Примеры и вывод
         // в лог).
-
-
-        // 2. Копирование тестовых контейнеров для подписи,
-        // проверки подписи, шифрования и TLS (Примеры и вывод
-        // в лог).
 //        initLogger()
         installContainers()
-
-        // 3. Инициируем объект для управления выбором типа
-        // контейнера (Настройки).
-
 
         // 3. Инициируем объект для управления выбором типа
         // контейнера (Настройки).
@@ -259,36 +209,14 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
 
         // 4. Инициируем объект для управления выбором типа
         // провайдера (Настройки).
-
-
-        // 4. Инициируем объект для управления выбором типа
-        // провайдера (Настройки).
         ProviderType.init(this)
-
-        // 5. Вывод информации о тестовых контейнерах.
-
 
         // 5. Вывод информации о тестовых контейнерах.
         logTestContainers()
 
         // 6. Вывод информации о провайдере и контейнерах
         // (Пример).
-
-
-        // 6. Вывод информации о провайдере и контейнерах
-        // (Пример).
         logJCspServices()
-
-        // 7. Управление вкладками и панелями.
-
-
-        // 7. Управление вкладками и панелями.
-//        initNavigation()
-
-        // 8. Логирование. Для логирования:
-        // CSPConfig.setNeedLogBioStatistics(true);
-
-        // 9. Запрос прав на запись.
 
 
         // 8. Логирование. Для логирования:
@@ -301,7 +229,6 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
             PermissionHelper.PERMISSION_REQUEST_CODE_WRITE_STORAGE
         )
 
-//        myInit()
         containerAliasAdapter = ArrayAdapter<String>(
             this, android.R.layout.simple_spinner_item
         )
@@ -326,33 +253,6 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
             val exampleConstructor = exampleClass.getConstructor(
                 ContainerAdapter::class.java
             )
-
-            // Сборка универсального ContainerAdapter.
-
-            // Клиентский контейнер (подписант, отправитель, TLS).
-
-            // Сборка универсального ContainerAdapter.
-
-            // Клиентский контейнер (подписант, отправитель, TLS).
-            // CharSequence clientPasswordSequence = etClientPin.getText();
-            // char[] clientPassword = null;
-            //
-            // if (clientPasswordSequence != null) {
-            //     clientPassword = clientPasswordSequence.toString().toCharArray();
-            // } // if
-
-            // Контейнер получателя.
-            // CharSequence clientPasswordSequence = etClientPin.getText();
-            // char[] clientPassword = null;
-            //
-            // if (clientPasswordSequence != null) {
-            //     clientPassword = clientPasswordSequence.toString().toCharArray();
-            // } // if
-
-            // Контейнер получателя.
-
-            // Настройки примера.
-
 
             // Настройки примера.
             val adapter = ContainerAdapter(
@@ -511,63 +411,6 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
 
 
     /**
-     * Обновление списка контейнеров во вкладках.
-     * Обычно это вкладки примеров и утилит.
-     *
-     */
-    @Synchronized
-    private fun update() {
-
-        // Получение вкладок контейнеров и настроек,
-        // т.е. вкладок, могущих повлиять на список
-        // контейнеров.
-//        val containerFragmentTag = AppUtils.makeFragmentTag(viewPager, MainActivity.TAB_CONTAINERS)
-//        val containerFragment: Fragment = fragmentManager.findFragmentByTag(containerFragmentTag)
-//        val settingsFragmentTag = AppUtils.makeFragmentTag(viewPager, MainActivity.TAB_SETTINGS)
-//        val settingsFragment: Fragment = fragmentManager.findFragmentByTag(settingsFragmentTag)
-//        val containerCreatedOrRemoved = booleanArrayOf(ooCreateOnce)
-//        val settingsChanged = booleanArrayOf(ooCreateOnce)
-
-        // При создании считаем, что что-то было изменено,
-        // чтобы обновить один раз список, дже если ничего
-        // не менялось. В последующем полагаемся на ответы
-        // нужных активити.
-//        ooCreateOnce = false
-
-        // Проверка, не был ли создан или удален
-        // контейнер.
-//        if (containerFragment is ContainerActivity) { // может быть null
-//            (containerFragment as ContainerActivity).update(null, containerCreatedOrRemoved)
-//        } // if
-
-        // Проверка, не изменились ли настройки на
-        // вкладке настроек.
-//        if (settingsFragment is SettingsActivity) { // может быть null
-//            (settingsFragment as SettingsActivity).update(null, settingsChanged)
-//        } // if
-
-        // Если был создан/удален контейнер или настройки
-        // изменились, то запускается обновление списка
-        // контейнеров для данной вкладки....
-//        if (containerCreatedOrRemoved[0] || settingsChanged[0]) {
-//            containerManager = AsyncTaskManager(this, ContainerListener())
-//            containerManager.handleRetainedTask(lastCustomNonConfigurationInstance) // восстанавливаем задачу
-//            if (!containerManager.isWorking()) { // если нет - запускаем задачу
-//                containerManager.setupTask(ContainerTask())
-//            } // if
-//            else {
-//                AppUtils.alertToast(this, getString(R.string.PBMessageAlreadyRunning))
-//            } // else
-//        } // if
-//        else {
-//
-//            // Иначе обновляем список из кэша.
-//            updateFragment(MainActivity.TAB_EXAMPLES)
-//            updateFragment(MainActivity.TAB_UTILITIES)
-//        } // else
-    }
-
-    /**
      * Задача обновления списка контейнеров.
      *
      */
@@ -638,105 +481,6 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    /**
-     * Обновление списка контейнеров в отдельной
-     * вкладке.
-     *
-     * @param tabIndex Индекс вкладки.
-     */
-//    private fun updateFragment(tabIndex: Int) {
-//        val fragmentTag = AppUtils.makeFragmentTag(viewPager, tabIndex)
-//        val fragment: Fragment = fragmentManager.findFragmentByTag(fragmentTag)
-//        if (fragment is ExamplesActivity) {
-//            (fragment as Observer).update(null, cacheAllAliases)
-//        } // if
-//        else if (fragment is UtilActivity) {
-//            (fragment as Observer).update(null, cacheHDAliases)
-//        } // else
-//    }
-
-//?????    override fun onRetainCustomNonConfigurationInstance(): Any? {
-//
-//        // Сохраняем задачу.
-//        return if (containerManager != null) {
-//            containerManager!!.retainTask()
-//        } else null // if
-//    }
-
-    fun onTabUnselected(
-        tab: ActionBar.Tab?,
-        fragmentTransaction: FragmentTransaction?
-    ) {
-    }
-
-    fun onTabSelected(
-        tab: ActionBar.Tab,
-        fragmentTransaction: FragmentTransaction?
-    ) {
-        viewPager?.setCurrentItem(tab.position)
-        update() // обновление при смене вкладки
-    }
-
-    fun onTabReselected(
-        tab: ActionBar.Tab?,
-        fragmentTransaction: FragmentTransaction?
-    ) {
-    }
-
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        val inflater = menuInflater
-//        inflater.inflate(R.menu.main_menu, menu)
-//        val svLog = findViewById<View>(R.id.svLog) as ScrollView
-//        val item = menu.findItem(R.id.miShowLog)
-//        val swLog = item.actionView.findViewById<View>(R.id.swShowLog) as Switch
-//        swLog.setOnCheckedChangeListener { buttonView, isChecked ->
-//            if (isChecked) {
-//                svLog.layoutParams = LinearLayout.LayoutParams(
-//                    ViewGroup.LayoutParams.MATCH_PARENT,
-//                    ViewGroup.LayoutParams.MATCH_PARENT,
-//                    1f
-//                )
-//            } // if
-//            else {
-//                svLog.layoutParams = LinearLayout.LayoutParams(
-//                    ViewGroup.LayoutParams.MATCH_PARENT, 0
-//                )
-//            } // else
-//        }
-//        return true
-//    }
-
-    /**
-     * Создание вкладок и меню.
-     *
-     */
-//    private fun initNavigation() {
-//        fragmentManager = supportFragmentManager
-//        val sectionsPagerAdapter = SectionsPagerAdapter(fragmentManager)
-//        val actionBar = actionBar
-//        actionBar!!.navigationMode = ActionBar.NAVIGATION_MODE_TABS
-//        viewPager = findViewById<View>(R.id.pager) as ViewPager
-//        viewPager.setAdapter(sectionsPagerAdapter)
-//        viewPager.setOffscreenPageLimit(2)
-//        viewPager.setVerticalScrollBarEnabled(true)
-//
-//        // Смена вкладок.
-//        viewPager.setOnPageChangeListener(
-//            object : SimpleOnPageChangeListener() {
-//                override fun onPageSelected(position: Int) {
-//                    actionBar.setSelectedNavigationItem(position)
-//                }
-//            })
-//
-//        // Заголовки вкладок.
-//        for (i in 0 until sectionsPagerAdapter.count) {
-//            actionBar.addTab(
-//                actionBar.newTab()
-//                    .setText(sectionsPagerAdapter.getPageTitle(i))
-//                    .setTabListener(this)
-//            )
-//        } // for
-//    }
 
     /************************ Инициализация провайдера ************************/
 
@@ -1007,46 +751,6 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
         Logger.init(resources, etLog, tvOpStatus)
         Logger.clear()
     }
-
-    /******************************** Адаптер для фрагментов ********************************/
-
-    /******************************** Адаптер для фрагментов  */
-    /**
-     * Класс SectionsPagerAdapter предназначен для управления
-     * вкладками и их активации.
-     *
-     */
-//    class SectionsPagerAdapter
-//    /**
-//     * Конструктор.
-//     *
-//     * @param fm Менеджер фрагментов.
-//     */
-//        (fm: FragmentManager?) : FragmentPagerAdapter(fm!!) {
-//        override fun getItem(i: Int): Fragment {
-//            when (i) {
-//                0 -> return ContainerActivity()
-//                1 -> return ExamplesActivity()
-//                2 -> return UtilActivity()
-//                3 -> return SettingsActivity()
-//            }
-//            return null
-//        }
-//
-//        override fun getCount(): Int {
-//            return 4
-//        }
-//
-//        override fun getPageTitle(position: Int): CharSequence? {
-//            when (position) {
-//                0 -> return getString(R.string.ContainerTab).toUpperCase()
-//                1 -> return getString(R.string.ExamplesTab).toUpperCase()
-//                2 -> return getString(R.string.UtilitiesTab).toUpperCase()
-//                3 -> return getString(R.string.SettingsTab).toUpperCase()
-//            }
-//            return ""
-//        }
-//    }
 
     /************************** Служебные функции ****************************/
 

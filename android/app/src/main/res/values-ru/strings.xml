@@ -37,7 +37,7 @@
     <string name="SettingsKeyAlgorithm">Алгоритм ключа:</string>
 
     <string name="ExamplesExampleName">Пример:</string>
-    <string name="ExamplesClientName">Контейнер клиента:</string>
+    <string name="ExamplesClientName">Контейнер:</string>
     <string name="ExamplesClientPassword">Пароль:</string>
     <string name="ExamplesServerName">Контейнер получателя:</string>
     <string name="ExamplesServerPassword">Пароль:</string>

@@ -36,8 +36,8 @@
     <string name="SettingsKeyAlgorithm">KeyAlgorithm:</string>
 
     <string name="ExamplesExampleName">Example:</string>
-    <string name="ExamplesClientName">Client container:</string>
-    <string name="ExamplesClientPassword">Client password:</string>
+    <string name="ExamplesClientName">Сontainer:</string>
+    <string name="ExamplesClientPassword">Password:</string>
     <string name="ExamplesServerName">Recipient container:</string>
     <string name="ExamplesServerPassword">Recipient password:</string>
     <string name="ExamplesExecute">Execute</string>
