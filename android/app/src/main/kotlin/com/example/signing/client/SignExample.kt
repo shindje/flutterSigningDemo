@@ -94,7 +94,7 @@ class SignExample
         // Формируем подпись.
         Logger.log(
             "Compute signature for message '" +
-                    Constants.MESSAGE.toString() + "' :"
+                    data?.size + "' :"
         )
         val sign = sn.sign()
         Logger.log(sign, true)

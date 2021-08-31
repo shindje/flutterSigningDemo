@@ -242,7 +242,8 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
     private val EXAMPLE_PACKAGE = "com.example.signing.client."
     private fun doSign(data: ByteArray, finalListener: FinalListener) {
 
-        val exampleClassName = "VerifyExample"
+//        val exampleClassName = "VerifyExample"
+        val exampleClassName = "CMSSignExample"
 
 
         // Поиск примера.
@@ -251,6 +252,7 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
 
         try {
             val exampleConstructor = exampleClass.getConstructor(
+                Boolean::class.java,
                 ContainerAdapter::class.java
             )
 
@@ -340,7 +342,7 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
 
 
             // Выполнение примера.
-            val exampleImpl: HashData = exampleConstructor.newInstance(adapter) as HashData
+            val exampleImpl: HashData = exampleConstructor.newInstance(false, adapter) as HashData
             exampleImpl.getResult(data, finalListener)
 
         } catch (e: Exception) {

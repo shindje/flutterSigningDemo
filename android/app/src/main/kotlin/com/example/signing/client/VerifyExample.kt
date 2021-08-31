@@ -86,7 +86,7 @@ class VerifyExample
                         certificate!!.getPublicKey()
             )
             sn.initVerify(certificate)
-            Logger.log("Source data: " + Constants.MESSAGE)
+            Logger.log("Source data: " + data?.size)
             sn.update(data)
             Logger.log("Verify signature:")
             Logger.log(sign!!, true)
@@ -98,7 +98,6 @@ class VerifyExample
             } // if
             else {
                 throw Exception("Invalid signature.")
-                return null
             } // else
 
         }

@@ -27,7 +27,7 @@ interface Constants {
         /**
          * Сообщение для хеширования, подписи, зашифрования.
          */
-        const val MESSAGE = "Test message!"
+//        const val MESSAGE = "Test message!"
 
         /**
          * Кодировка по умолчанию для html-страниц в TLS-примерах.
