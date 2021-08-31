@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:signing/data/files.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:open_file/open_file.dart';
 
 class DetailsPage extends Page {
   final Document doc;
@@ -55,12 +57,11 @@ class _DetailsState extends State<DetailsScreen> {
         final Uint8List? result = await platform.invokeMethod('sign', data.buffer.asUint8List());
         message = 'Signed data size: ${result != null ? result.lengthInBytes : "empty"}';
         doc.signFile = await checkAndWrite(doc.assetPath! + ".sign", result);
-        doc.signFileLength = result!.lengthInBytes;
         doc.state = "Подписан";
       } else
         message = "No file";
     } on PlatformException catch (e) {
-      message = "Error: '${e.message}'.";
+      message = "${e.message}";
     }
 
     setState(() {
@@ -73,9 +74,14 @@ class _DetailsState extends State<DetailsScreen> {
     if (doc.signFile != null)
       doc.signFile!.deleteSync();
     doc.signFile = null;
-    doc.signFileLength = null;
     doc.state = "Новый";
     setState(() {});
+  }
+
+  Future<void> _openFile(String filePath) async {
+    final _result = await OpenFile.open(filePath);
+    if (_result.type != ResultType.done)
+      Fluttertoast.showToast(msg: _result.message);
   }
 
   @override
@@ -140,11 +146,29 @@ class _DetailsState extends State<DetailsScreen> {
             ),
             TextWithPadding("Описание: ${doc.desc}"),
             TextWithPadding("Статус: ${doc.state}"),
-            TextWithPadding("Файл: ${doc.file?.path ?? ""}"),
-            TextWithPadding("Размер файла: ${doc.fileLength ?? ""}"),
-            TextWithPadding("Подпись: ${doc.signFile?.path ?? ""}"),
-            TextWithPadding("Размер подписи: ${doc.signFileLength ?? ""}"),
             if (doc.file != null)
+              Row(children: [
+                TextWithPadding("Файл: "),
+                Expanded(
+                  child:
+                    TextButton(
+                        onPressed: () { _openFile(doc.file!.path); },
+                        child: TextWithPadding("${doc.file!.path}"),
+                    ),
+                  ),
+              ],),
+            if (doc.signFile != null)
+              Row(children: [
+                TextWithPadding("Подпись: "),
+                Expanded(
+                  child:
+                  TextButton(
+                    onPressed: () { _openFile(doc.signFile!.path); },
+                    child: TextWithPadding("${doc.signFile!.path}"),
+                  ),
+                ),
+              ],),
+            if (doc.file != null && doc.assetPath!.endsWith(".pdf"))
               Expanded(
                 child: SfPdfViewer.file(doc.file!),
               ),

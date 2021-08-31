@@ -58,17 +58,11 @@ class _MyListViewState extends State<MyListView> {
             ).buffer.asUint8List()
         );
         doc.file = file;
-        doc.fileLength = (await file!.readAsBytes()).length;
-
-        stdout.writeln("----doc.fileLength ${doc.fileLength}");
 
         File? signFile = await checkFile(doc.assetPath! + ".sign");
         doc.signFile = signFile;
-        if (signFile != null) {
-          doc.signFileLength = (await signFile.readAsBytes()).length;
+        if (signFile != null)
           doc.state = "Подписан";
-        } else
-          doc.signFileLength = null;
       }
     }
 

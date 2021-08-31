@@ -11,9 +11,7 @@ class Document {
   String desc;
   String? assetPath;
   File? file;
-  int? fileLength;
   File? signFile;
-  int? signFileLength;
   String state = "Новый";
 
   Document(this.docNum, this.docDate, this.desc, this.assetPath);
@@ -44,16 +42,11 @@ class Document {
           ).buffer.asUint8List()
       );
       file = check;
-      fileLength = (await file!.readAsBytes()).length;
-
-      stdout.writeln("----doc.fileLength ${fileLength}");
 
       File? signCheck = await checkFile(assetPath! + ".sign");
       signFile = signCheck;
-      if (signFile != null) {
-        signFileLength = (await signFile!.readAsBytes()).length;
+      if (signFile != null)
         state = "Подписан";
-      }
     }
   }
 }
@@ -64,8 +57,8 @@ List<Document> mocked() {
   if (_docs == null)
     _docs = [
       Document("1.1", DateTime.now(), "Документ о чем-то", "soprovod.pdf"),
-      Document("1.2", DateTime.parse("2020-06-15"), "Документ о направлении чего-го куда-то", null),
-      Document("2", DateTime.parse("2012-02-27"), "Тоже документ", null),
+      Document("1.2", DateTime.parse("2020-06-15"), "Документ о направлении чего-го куда-то", "soprovod_docx.docx"),
+      Document("2", DateTime.parse("2012-02-27"), "Тоже документ", "fin_rep_4.20.xls"),
     ];
   return _docs!;
 }

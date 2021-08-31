@@ -105,6 +105,10 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
 
         spKeyStoreType.adapter = keyStoreTypeAdapter
         spKeyStoreType.onItemSelectedListener = this
+
+        // Выбираем сохраненный ранее тип.
+        keyStoreTypeIndex = keyStoreTypeAdapter.getPosition(KeyStoreType.currentType())
+        spKeyStoreType.setSelection(keyStoreTypeIndex)
 ///////////////////////////////////////////////////////////////////////////////////////
 
         // Тип провайдера.
@@ -124,12 +128,16 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
 
         spProviderType.adapter = providerTypeAdapter
         spProviderType.onItemSelectedListener = this
+
+        // Выбираем сохраненный ранее тип.
+        providerTypeIndex = providerTypeAdapter.getPosition(ProviderType.currentType())
+        spProviderType.setSelection(providerTypeIndex)
 ///////////////////////////////////////////////////////////////////////////////////////
 
         // Список клиентских алиасов.
         spClientList = v.findViewById(R.id.dlgSpExamplesClientList) as Spinner
 
-        val containerAliasAdapter = ArrayAdapter<String>(
+        containerAliasAdapter = ArrayAdapter(
             this, android.R.layout.simple_spinner_item
         )
 
@@ -294,84 +302,15 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
         )
 
 //        myInit()
+        containerAliasAdapter = ArrayAdapter<String>(
+            this, android.R.layout.simple_spinner_item
+        )
     }
 
     private lateinit var spKeyStoreType: Spinner
     private lateinit var spProviderType: Spinner
     private lateinit var spClientList: Spinner
-
-    private fun myInit() {
-        // Тип контейнера.
-        spKeyStoreType = findViewById(R.id.spKeyStore) as Spinner
-
-        // Получение списка поддерживаемых типов хранилищ.
-        val keyStoreTypeList: List<String> = KeyStoreType.keyStoreTypeList
-
-        // Создаем ArrayAdapter для использования строкового массива
-        // и способа отображения объекта.
-        val keyStoreTypeAdapter = ArrayAdapter(
-            this, android.R.layout.simple_spinner_item,
-            keyStoreTypeList
-        )
-
-        // Способ отображения.
-        keyStoreTypeAdapter.setDropDownViewResource(
-            android.R.layout.simple_spinner_dropdown_item
-        )
-
-        spKeyStoreType.adapter = keyStoreTypeAdapter
-        spKeyStoreType.onItemSelectedListener = this
-///////////////////////////////////////////////////////////////////////////////////////
-
-        // Тип провайдера.
-        spProviderType = findViewById(R.id.spProviderType) as Spinner
-
-        // Создаем ArrayAdapter для использования строкового массива
-        // и способа отображения объекта.
-        val providerTypeAdapter = ArrayAdapter.createFromResource(
-            this,
-            R.array.providerTypes, android.R.layout.simple_spinner_item
-        )
-
-        // Способ отображения.
-        providerTypeAdapter.setDropDownViewResource(
-            android.R.layout.simple_spinner_dropdown_item
-        )
-
-        spProviderType.adapter = providerTypeAdapter
-        spProviderType.onItemSelectedListener = this
-///////////////////////////////////////////////////////////////////////////////////////
-
-        // Список клиентских алиасов.
-        spClientList = findViewById(R.id.spExamplesClientList) as Spinner
-
-        val containerAliasAdapter = ArrayAdapter<String>(
-            this, android.R.layout.simple_spinner_item
-        )
-
-        // Способ отображения.
-
-
-        // Способ отображения.
-        containerAliasAdapter.setDropDownViewResource(
-            android.R.layout.simple_spinner_dropdown_item
-        )
-
-        spClientList.adapter = containerAliasAdapter
-
-        myLoadClientList(containerAliasAdapter)
-///////////////////////////////////////////////////////////////////////////////////////
-        val btnRefresh = findViewById(R.id.btnRefresh) as Button
-        btnRefresh.setOnClickListener {
-            myLoadClientList(containerAliasAdapter)
-        }
-
-//        val btnSign = findViewById(R.id.btnSign) as Button
-//        btnSign.setOnClickListener {
-//            doSign()
-//        }
-
-    }
+    private lateinit var containerAliasAdapter: ArrayAdapter<String>
 
     private val EXAMPLE_PACKAGE = "com.example.signing.client."
     private fun doSign(data: ByteArray, finalListener: FinalListener) {
@@ -565,6 +504,7 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
                 } // if
             }
         }
+        myLoadClientList(containerAliasAdapter)
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -692,7 +632,7 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
 //                updateFragment(MainActivity.TAB_UTILITIES)
 
                 containerAliasAdapter.clear()
-                containerAliasAdapter.addAll(cacheAllAliases + cacheHDAliases)
+                containerAliasAdapter.addAll(cacheAllAliases)
                 containerAliasAdapter.notifyDataSetChanged()
             }
         }
