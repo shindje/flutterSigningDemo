@@ -27,16 +27,11 @@ import java.security.Signature
  * 27/05/2013
  *
  */
-class VerifyExample
-/**
- * Конструктор.
- *
- * @param adapter Настройки примера.
- */
-    (adapter: ContainerAdapter?) : SignData(adapter!!, false) {
+class VerifyExample(adapter: ContainerAdapter?) : SignData(adapter!!, false) {
+
     @Throws(Exception::class)
     override fun getResult(data: ByteArray?, listener: FinalListener?) {
-        val thread: VerifyThread = VerifyThread()
+        val thread = VerifyThread()
         thread.addFinalListener(listener)
         getThreadResult(thread, data)
     }

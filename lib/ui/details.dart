@@ -50,7 +50,7 @@ class _DetailsState extends State<DetailsScreen> {
 
 
   Future<void> _sign() async {
-    String? message;
+    String message;
     try {
       if (doc.file != null) {
         Uint8List data = doc.file!.readAsBytesSync();
@@ -65,8 +65,7 @@ class _DetailsState extends State<DetailsScreen> {
     }
 
     setState(() {
-      if (message != null)
-        Fluttertoast.showToast(msg: message);
+      Fluttertoast.showToast(msg: message);
     });
   }
 

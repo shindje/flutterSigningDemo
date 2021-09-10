@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -20,6 +22,7 @@ class MyListView extends StatefulWidget {
 class _MyListViewState extends State<MyListView> {
   final List<Document> docList;
   final ValueChanged<Document> onTap;
+  static const platform = MethodChannel('com.example/SigningView');
 
   _MyListViewState(this.docList,this.onTap);
 
@@ -69,10 +72,39 @@ class _MyListViewState extends State<MyListView> {
     setState(() {});
   }
 
+  Future<void> _tls() async {
+    String message;
+    try {
+      final Uint8List? result = await platform.invokeMethod('tls');
+      message = 'Connected data size: ${result != null ? result.lengthInBytes : "empty"}';
+    } on PlatformException catch (e) {
+      message = "${e.message}";
+    }
+
+    Fluttertoast.showToast(msg: message);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Список документов'),),
+      appBar: AppBar(
+        title: Text('Список документов'),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 20),
+            child: GestureDetector(
+              onTap: () {
+                _tls();
+              },
+              child: Icon(
+                Icons.vpn_lock,
+                color: Colors.white,
+                size: 26,
+              ),
+            ),
+          ),
+        ],
+      ),
       body: ListView.builder(
           itemCount: docList.length * 2,
           itemBuilder: (BuildContext _context, int i) {

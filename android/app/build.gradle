@@ -96,7 +96,7 @@ dependencies {
     compileOnly 'xalan:xalan:2.7.2'
     implementation 'commons-codec:commons-codec:1.14'
     implementation 'org.apache.santuario:xmlsec:1.4.4'
-    implementation 'com.squareup.okhttp3:okhttp:4.8.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
 
     if (findProject(':JInitCSP') != null) {
         externalLibs implementation('ru.aladdin:jcpcsclite:1.1.0.45')

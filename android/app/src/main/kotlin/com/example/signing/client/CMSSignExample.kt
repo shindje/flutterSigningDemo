@@ -43,8 +43,7 @@ import java.util.*
  * 26/09/2013
  *
  */
-class CMSSignExample (signAttributes: Boolean, adapter: ContainerAdapter?) :
-    SignData(adapter!!, signAttributes) {
+class CMSSignExample (adapter: ContainerAdapter?) : SignData(adapter!!, false) {
     /**
      * Буферы для записи сообщений о проверке подписей.
      */
@@ -758,6 +757,6 @@ class CMSSignExample (signAttributes: Boolean, adapter: ContainerAdapter?) :
      * @param adapter Настройки примера.
      */
     init {
-        needSignAttributes = signAttributes
+        needSignAttributes = false
     }
 }

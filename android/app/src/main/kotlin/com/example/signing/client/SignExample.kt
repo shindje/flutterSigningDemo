@@ -27,13 +27,8 @@ import java.security.Signature
  * 27/05/2013
  *
  */
-class SignExample
-/**
- * Конструктор.
- *
- * @param adapter Настройки примера.
- */
-    (adapter: ContainerAdapter?) : SignData(adapter!!, false) {
+class SignExample(adapter: ContainerAdapter?) : SignData(adapter!!, false) {
+
     @Throws(Exception::class)
     override fun getResult(data: ByteArray?, listener: FinalListener?) {
         val thread = SignThread()

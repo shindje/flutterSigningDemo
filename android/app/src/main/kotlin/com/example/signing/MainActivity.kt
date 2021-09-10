@@ -40,51 +40,52 @@ import java.security.Security
 import java.util.ArrayList
 
 class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
+
+    val cryptoUI: Map<String, Array<String>> = mapOf(
+        "sign" to arrayOf("CMSSignExample", "Подписание", "Подписать"),
+        "tls" to arrayOf("OkHttpSimpleExample", "Подключение", "Подключиться"),
+    )
+
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         flutterEngine
             .platformViewsController
             .registry
             .registerViewFactory("ru.esoft/signingView", SigningViewFactory())
-        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "com.example/SigningView").setMethodCallHandler {
-                call, result ->
-                if (call.method == "sign") {
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "com.example/SigningView")
+            .setMethodCallHandler { call, result ->
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage("Выбор контейнера")
+                builder.setTitle(cryptoUI[call.method]?.get(1))
 
-                    val builder = AlertDialog.Builder(this)
-                    builder.setMessage("Выбор контейнера")
-                        .setTitle("Подписание")
+                val dialogView = layoutInflater.inflate(R.layout.signing_types_dialog, null)
+                dialogInit(dialogView)
 
-                    val dialogView = layoutInflater.inflate(R.layout.signing_types_dialog, null)
-                    dialogInit(dialogView)
-
-                    builder
-                        .setView(dialogView)
-                        .setPositiveButton("Подписать"
-                        ) { _, id ->
-                            val selected = spClientList.getSelectedItem() as String?
-                            if (selected.isNullOrBlank())
-                                result.error("cancelErrorCode", "Контейнер не выбран", null)
-                            val bytes = call.arguments as ByteArray
-                            doSign(bytes, object: FinalListener {
-                                override fun onComplete(res: Any?) {
-                                    runOnUiThread {
-                                        if (res != null)
-                                            result.success(res as ByteArray)
-                                        else
-                                            result.success(res)
-                                    }
+                builder
+                    .setView(dialogView)
+                    .setPositiveButton(cryptoUI[call.method]?.get(2)) { _, id ->
+                        val selected = spClientList.getSelectedItem() as String?
+                        if (selected.isNullOrBlank())
+                            result.error("cancelErrorCode", "Контейнер не выбран", null)
+                        val bytes = call.arguments as ByteArray?
+                        executeCrypto(cryptoUI[call.method]?.get(0), bytes, object: FinalListener {
+                            override fun onComplete(res: Any?) {
+                                runOnUiThread {
+                                    if (res != null)
+                                        result.success(res as ByteArray)
+                                    else
+                                        result.success(res)
                                 }
-                            })
-                        }
-                            .setNegativeButton("Отмена"
-                        ) { _, id ->
-                            result.error("cancelErrorCode", "Подпись отменена", null)
-                        }
+                            }
+                        })
+                    }
+                        .setNegativeButton("Отмена") { _, id ->
+                        result.error("cancelErrorCode", cryptoUI[call.method]?.get(1) + " отменено", null)
+                    }
 
-                    val dialog = builder.create()
-                    dialog.show()
-                }
-        }
+                val dialog = builder.create()
+                dialog.show()
+            }
     }
 
     private fun dialogInit(v: View) {
@@ -240,19 +241,20 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var containerAliasAdapter: ArrayAdapter<String>
 
     private val EXAMPLE_PACKAGE = "com.example.signing.client."
-    private fun doSign(data: ByteArray, finalListener: FinalListener) {
+
+    private fun executeCrypto(className: String?, data: ByteArray?, finalListener: FinalListener) {
 
 //        val exampleClassName = "VerifyExample"
-        val exampleClassName = "CMSSignExample"
+//        val exampleClassName = "CMSSignExample"
 
 
         // Поиск примера.
-        val fullExampleClassName: String = EXAMPLE_PACKAGE + exampleClassName
+        val fullExampleClassName: String = EXAMPLE_PACKAGE + className
         val exampleClass = Class.forName(fullExampleClassName)
 
         try {
             val exampleConstructor = exampleClass.getConstructor(
-                Boolean::class.java,
+                //Boolean::class.java,
                 ContainerAdapter::class.java
             )
 
@@ -268,21 +270,11 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
             adapter.providerType =ProviderType.currentProviderType()
             adapter.resources = resources // для примера установки сертификатов
 
-
-            // По наличию в списке ниже данного примера определяем,
-            // включена ли аутентификация. Только для TLS примеров!
-
-
             // По наличию в списке ниже данного примера определяем,
             // включена ли аутентификация. Только для TLS примеров!
             val clientAuth = false
             //val clientAuth = Arrays.asList<String>(*examplesRequireWrittenPin)
             //  .contains(exampleClassName) // для TLS примеров
-
-
-            // Используется общее для всех хранилище корневых
-            // сертификатов cacerts.
-
 
             // Используется общее для всех хранилище корневых
             // сертификатов cacerts.
@@ -342,7 +334,7 @@ class MainActivity: FlutterActivity(), AdapterView.OnItemSelectedListener {
 
 
             // Выполнение примера.
-            val exampleImpl: HashData = exampleConstructor.newInstance(false, adapter) as HashData
+            val exampleImpl: HashData = exampleConstructor.newInstance(adapter) as HashData
             exampleImpl.getResult(data, finalListener)
 
         } catch (e: Exception) {
